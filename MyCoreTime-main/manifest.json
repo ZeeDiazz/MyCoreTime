@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "MyCoreTime",
+  "description": "A timer extension that logs time to a text file",
+  "version": "0.1.0",
+  "icons" : {
+    "16": "/images/TigerWatch16.png",
+    "48": "/images/TigerWatch48.png",
+    "128": "/images/TigerWatch128.png"
+  },
+  "page_action": {
+    "default_icon": {
+    "16": "/images/TigerWatch16.png",
+    "48": "/images/TigerWatch48.png",
+    "128": "/images/TigerWatch128.png"
+    }
+  },
+  "author": "Zaid Cossai",
+  "action":{
+    "default_popup": "index.html",
+    "default_title": "MyCoreTime"
+  }
+}
