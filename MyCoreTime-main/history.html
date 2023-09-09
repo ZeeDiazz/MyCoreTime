@@ -5,6 +5,18 @@
 </head>
 <body style="background-color: #1C1C1C;">
   <style type="text/css">
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    tr:nth-child(even) {
+      background-color: #222224;
+    }
     body {
       min-width: 150px; 
       max-width: 100%;
@@ -15,9 +27,22 @@
 
   <h1 style="color: #F8F8F8;">My Logged History</h1>
 
-  <div id="historycontainer" style="color: #F8F8F8;">
-    <!-- Display logged times here -->
-  </div>
+  <!--<div id="historycontainer" style="color: #F8F8F8;">
+    Display logged times here
+  </div>-->
+
+  <table id="historytable" style="color: #F8F8F8;">
+    <thead>
+      <tr>
+        <th>Logged Time</th>
+        <th>Time Of Logging</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+       
+    </tbody>
+  </table> 
 
   <button id="clearhistory">Clear History</button>
   <button id="backtomain">Back to Main</button>

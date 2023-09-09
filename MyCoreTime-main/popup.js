@@ -53,7 +53,9 @@ document.getElementById("stop").addEventListener("click", () => {
   const logTime = confirm("Do you want to log this time in History?");
   if (logTime) {
     const formattedTime = formatTime(elapsedTime);
-    saveTimeLog(`Time logged: ${formattedTime}`);
+    
+    //Time logged:
+    saveTimeLog(`${formattedTime}`);
   }
   resetTimer();
 });
@@ -99,7 +101,8 @@ function saveTimeLog(log) {
     // Add the new log to the history
     // Add the new log with date and time
   const now = new Date();
-  const formattedDateTime =`Time: ${now.toLocaleTimeString()}, Date: ${now.toLocaleDateString()}`;
+
+  const formattedDateTime =`${now.toLocaleTimeString()}, ${now.toLocaleDateString()}`;
   const logWithDateTime = `${log}, ${formattedDateTime}`;
   
   existingHistory.push(logWithDateTime);
@@ -108,4 +111,6 @@ function saveTimeLog(log) {
     // Store the updated history in local storage
     localStorage.setItem("timeHistory", JSON.stringify(existingHistory));
   }
+
+  
   
