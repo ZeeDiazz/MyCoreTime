@@ -16,6 +16,12 @@
     }
   },
   "author": "Zaid Cossai",
+  "permissions": ["storage", "unlimitedStorage"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module",
+    "persistent": false
+  },
   "action":{
     "default_popup": "index.html",
     "default_title": "MyCoreTime"

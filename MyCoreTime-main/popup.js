@@ -16,7 +16,7 @@ function formatTime(milliseconds) {
 
 function updateTimer() {
   const currentTime = Date.now();
-  if (!isPaused) {
+  if (!isPaused) { //update only if paused
     elapsedTime = currentTime - startTime - totalPauseTime;
     document.getElementById("timer").innerText = formatTime(elapsedTime);
   }
@@ -29,7 +29,7 @@ document.getElementById("start").addEventListener("click", () => {
       totalPauseTime += Date.now() - pauseStartTime;
     }
     startTime = Date.now() - elapsedTime - totalPauseTime;
-    timerInterval = setInterval(updateTimer, 1000); // Update every second (1000ms).
+    timerInterval = setInterval(updateTimer, 1000); // Update every second.
   }
   isPaused = false;
 });
@@ -43,11 +43,10 @@ document.getElementById("pause").addEventListener("click", () => {
     timerInterval = null;
   }
 });
-
 //Stop button
 document.getElementById("stop").addEventListener("click", () => {
   if (timerInterval) {
-    clearInterval(timerInterval); // Clear the interval to stop updating the timer.
+    clearInterval(timerInterval);
     timerInterval = null;
   }
   const logTime = confirm("Do you want to log this time in History?");
@@ -67,7 +66,33 @@ function resetTimer() {
   document.getElementById("timer").innerText = "00:00:00"; // Resets the timer to 00:00:00
 }
 
-//Used for saving the time as a tx.t
+  
+  // View history button
+  document.getElementById("viewhistory").addEventListener("click", () => {
+    window.location.href = "history.html";
+  });
+  
+
+// Function to save the log to local storage
+function saveTimeLog(log) {
+  const blob = new Blob([log], { type: "text/plain"});
+  const url = URL.createObjectURL(blob);
+  // Get the existing history or initialize an empty array
+  const existingHistory = JSON.parse(localStorage.getItem("timeHistory")) || [];
+    
+  // Add the new log with date and time
+  const now = new Date();
+
+  const formattedDateTime =`${now.toLocaleTimeString()}, ${now.toLocaleDateString()}`;
+  const logWithDateTime = `${log}, ${formattedDateTime}`; //Format Timelog, TimeOfLog, Date
+  
+  existingHistory.push(logWithDateTime);
+    
+    // Store the updated history in local storage
+    localStorage.setItem("timeHistory", JSON.stringify(existingHistory));
+}
+
+//Used for saving the time as a .txt
 /*function saveTimeLog(log) {
   const blob = new Blob([log], { type: "text/plain"});
   const url = URL.createObjectURL(blob);
@@ -79,38 +104,3 @@ function resetTimer() {
 
   URL.revokeObjectURL(url);
 }*/
-
-// Function to open the history page
-function openHistoryPage() {
-    window.location.href = "history.html";
-  }
-  
-  // Add an event listener for the "View History" button
-  document.getElementById("viewhistory").addEventListener("click", openHistoryPage);
-  
-
-  // In popup.js
-
-// Function to save the log to local storage
-function saveTimeLog(log) {
-    const blob = new Blob([log], { type: "text/plain"});
-    const url = URL.createObjectURL(blob);
-    // Get the existing history or initialize an empty array
-    const existingHistory = JSON.parse(localStorage.getItem("timeHistory")) || [];
-    
-    // Add the new log to the history
-    // Add the new log with date and time
-  const now = new Date();
-
-  const formattedDateTime =`${now.toLocaleTimeString()}, ${now.toLocaleDateString()}`;
-  const logWithDateTime = `${log}, ${formattedDateTime}`;
-  
-  existingHistory.push(logWithDateTime);
-    //existingHistory.push(log);
-    
-    // Store the updated history in local storage
-    localStorage.setItem("timeHistory", JSON.stringify(existingHistory));
-  }
-
-  
-  
