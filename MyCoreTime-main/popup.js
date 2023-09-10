@@ -99,7 +99,30 @@ function saveTimeLog(log) {
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = "LoggedTime.txt";
+  a.download = "LoggedTime.csv";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}*/
+
+//For csv file
+/*function saveTimeLog(log) {
+  // Get the existing history or initialize an empty array
+  const existingHistory = JSON.parse(localStorage.getItem("timeHistory")) || [];
+    
+  // Add the new log with date and time
+  const now = new Date();
+
+  const formattedDateTime =`${now.toLocaleTimeString()}, ${now.toLocaleDateString()}`;
+  const logWithDateTime = `${log}, ${formattedDateTime}`; //Format Timelog, TimeOfLog, Date
+  
+  const blob = new Blob([logWithDateTime], { type: "text/plain"});
+  const url = URL.createObjectURL(blob);
+    
+    // Store the updated history in local storage
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "LoggedTime.csv";
   a.click();
 
   URL.revokeObjectURL(url);
