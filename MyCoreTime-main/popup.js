@@ -40,8 +40,6 @@ document.getElementById("stop").addEventListener("click", () => {
         saveTimeLog(`${format}`);
       }
     });
-    //const formattedTime = formatTime(elapsedTime);
-    //Time logged:
   }
   resetTimer();
 });

@@ -30,14 +30,17 @@ function updateTimer() {
 }
 
 function startTimer() {
-    if (!timerInterval) {
-        if (isPaused) {
-          totalPauseTime += Date.now() - pauseStartTime;
-        }
-        startTime = Date.now() - elapsedTime - totalPauseTime;
-        timerInterval = setInterval(updateTimer, 1000); // Update every second.
-      }
-      isPaused = false;
+  if (!timerInterval) {
+    if (isPaused) {
+      totalPauseTime += Date.now() - pauseStartTime;
+      // Adjust the start time to account for the paused time
+      startTime += Date.now() - pauseStartTime;
+    } else {
+      startTime = Date.now() - elapsedTime - totalPauseTime;
+    }
+    timerInterval = setInterval(updateTimer, 1000); // Update every second.
+  }
+  isPaused = false;
 }
 
 function pauseTimer() {
