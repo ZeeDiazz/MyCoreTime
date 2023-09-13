@@ -30,18 +30,21 @@ document.getElementById("pause").addEventListener("click", () => {
 // Stop button
 document.getElementById("stop").addEventListener("click", () => {
   chrome.runtime.sendMessage({ type: 'stopTimer' });
+
   const logTime = confirm("Do you want to log this time in History?");
   if (logTime) {
-    chrome.runtime.sendMessage({ type: 'logTimeYESNO' });
+    chrome.runtime.sendMessage({ type: 'sendLoggedTime'});
     chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-      if (message.type === 'updateTime') {
+      if (message.type === 'loggedTime') {
         const format = message.time;
         saveTimeLog(`${format}`);
+        resetTimer();
       }
     });
+
   }
-  resetTimer();
 });
+
 
 document.getElementById("viewhistory").addEventListener("click", () => {
   chrome.runtime.sendMessage({ type: 'viewHis' });
@@ -53,6 +56,7 @@ function resetTimer() {
   totalPauseTime = 0;
   document.getElementById("timer").innerText = "00:00:00"; // Resets the timer to 00:00:00
 }
+
 function saveTimeLog(log) {
   const blob = new Blob([log], { type: "text/plain"});
   const url = URL.createObjectURL(blob);
@@ -61,8 +65,9 @@ function saveTimeLog(log) {
     
   // Add the new log with date and time
   const now = new Date();
+  const test = document.getElementById("comment").value;
 
-  const formattedDateTime =`${now.toLocaleTimeString()}, ${now.toLocaleDateString()}`;
+  const formattedDateTime =`${now.toLocaleTimeString()}, ${now.toLocaleDateString()}, ${test}`;
   const logWithDateTime = `${log}, ${formattedDateTime}`; //Format Timelog, TimeOfLog, Date
 
   existingHistory.push(logWithDateTime);

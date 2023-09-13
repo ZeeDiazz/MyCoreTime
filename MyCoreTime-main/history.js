@@ -38,14 +38,17 @@ function loadTimeHistory() {
   
     //Table(rows) for each logging
     timeHistory.forEach((log) => {
-      const [loggedTime, timeOfLogged, loggedDate] = log.split(", ");
+      const [loggedTime, timeOfLogged, loggedDate, comment] = log.split(", ");
       const row = historyContainer.insertRow();
       const cell1 = row.insertCell(0);
       const cell2 = row.insertCell(1);
       const cell3 = row.insertCell(2);
+      const cell4 = row.insertCell(3);
+
       cell1.textContent = loggedTime;
       cell2.textContent = timeOfLogged;
       cell3.textContent = loggedDate;
+      cell4.textContent = comment;
     })
   }
   window.addEventListener("load", loadTimeHistory);

@@ -68,8 +68,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     stopTimer();
   } else if (message.type === 'viewHis') {
     window.location.href = "history.html";
-  } else if (message.type === 'logTimeYESNO'){
-    updateTimer();
+  } else if (message.type === 'sendLoggedTime'){
+    const formattedTime = formatTime(elapsedTime)
+    chrome.runtime.sendMessage({ type: 'loggedTime', time: formattedTime });
   }
 });
 
