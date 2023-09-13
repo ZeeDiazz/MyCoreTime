@@ -33,7 +33,6 @@ function startTimer() {
   if (!timerInterval) {
     if (isPaused) {
       totalPauseTime += Date.now() - pauseStartTime;
-      // Adjust the start time to account for the paused time
       startTime += Date.now() - pauseStartTime;
     } else {
       startTime = Date.now() - elapsedTime - totalPauseTime;
@@ -46,7 +45,7 @@ function startTimer() {
 function pauseTimer() {
     if (!isPaused && timerInterval) {
         isPaused = true;
-        pauseStartTime = Date.now(); // Store the time when pause was pressed.
+        pauseStartTime = Date.now(); // Store the time when paused.
         clearInterval(timerInterval); // Stop the timer.
         timerInterval = null;
       }

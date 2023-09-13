@@ -30,7 +30,6 @@ document.getElementById("pause").addEventListener("click", () => {
 // Stop button
 document.getElementById("stop").addEventListener("click", () => {
   chrome.runtime.sendMessage({ type: 'stopTimer' });
-  // Rest of your code
   const logTime = confirm("Do you want to log this time in History?");
   if (logTime) {
     chrome.runtime.sendMessage({ type: 'logTimeYESNO' });
