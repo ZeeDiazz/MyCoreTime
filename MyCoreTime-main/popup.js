@@ -33,7 +33,7 @@ document.getElementById("stop").addEventListener("click", () => {
 
   const logTime = confirm("Do you want to log this time in History?");
   if (logTime) {
-    chrome.runtime.sendMessage({ type: 'sendLoggedTime'});
+    chrome.runtime.sendMessage({ type: 'sendLoggedTime' });
     chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       if (message.type === 'loggedTime') {
         const format = message.time;
@@ -58,20 +58,20 @@ function resetTimer() {
 }
 
 function saveTimeLog(log) {
-  const blob = new Blob([log], { type: "text/plain"});
+  const blob = new Blob([log], { type: "text/plain" });
   const url = URL.createObjectURL(blob);
   // Get the existing history or initialize an empty array
   const existingHistory = JSON.parse(localStorage.getItem("timeHistory")) || [];
-    
+
   // Add the new log with date and time
   const now = new Date();
   const test = document.getElementById("comment").value;
 
-  const formattedDateTime =`${now.toLocaleTimeString()}, ${now.toLocaleDateString()}, ${test}`;
+  const formattedDateTime = `${now.toLocaleTimeString()}, ${now.toLocaleDateString()}, ${test}`;
   const logWithDateTime = `${log}, ${formattedDateTime}`; //Format Timelog, TimeOfLog, Date
 
   existingHistory.push(logWithDateTime);
-    
-    // Store the updated history in local storage
-    localStorage.setItem("timeHistory", JSON.stringify(existingHistory));
+
+  // Store the updated history in local storage
+  localStorage.setItem("timeHistory", JSON.stringify(existingHistory));
 }
