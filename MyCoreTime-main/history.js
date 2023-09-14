@@ -17,7 +17,6 @@ function loadTimeHistory() {
     // back to index file
     window.location.href = "index.html";
   });
-
   function clearTimeHistory() {
     // delete the history
     localStorage.removeItem("timeHistory");
