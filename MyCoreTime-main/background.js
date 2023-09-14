@@ -3,6 +3,7 @@ let startTime = 0;
 let elapsedTime = 0;
 
 let isPaused = false;
+
 let pauseStartTime = 0;
 let totalPauseTime = 0;
 
@@ -71,6 +72,8 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   } else if (message.type === 'sendLoggedTime') {
     const formattedTime = formatTime(elapsedTime)
     chrome.runtime.sendMessage({ type: 'loggedTime', time: formattedTime });
+  } else if(message.type === 'resetTimerNow'){
+    resetTimer();
   }
 });
 

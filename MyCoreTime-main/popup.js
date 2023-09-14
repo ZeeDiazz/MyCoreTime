@@ -29,22 +29,30 @@ document.getElementById("pause").addEventListener("click", () => {
 
 // Stop button
 document.getElementById("stop").addEventListener("click", () => {
+
   chrome.runtime.sendMessage({ type: 'stopTimer' });
-
-  const logTime = confirm("Do you want to log this time in History?");
-  if (logTime) {
-    chrome.runtime.sendMessage({ type: 'sendLoggedTime' });
-    chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-      if (message.type === 'loggedTime') {
-        const format = message.time;
-        saveTimeLog(`${format}`);
-        resetTimer();
-      }
-    });
-
-  }
+  confirmStop();
 });
 
+function confirmStop() {
+  chrome.runtime.sendMessage({ type: 'sendLoggedTime' });
+  chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    if (message.type === 'loggedTime' && message.time === '00:00:00') {
+      const cantLogTime = confirm("Cannot save 00:00:00");
+      return;
+    } else {
+      const logTime = confirm("Do you want to log this time in History?");
+      if (logTime) {
+        if (message.type === 'loggedTime') {
+          const format = message.time;
+          saveTimeLog(`${format}`);
+          resetTimer();
+          chrome.runtime.sendMessage({ type: 'resetTimerNow' });
+        }
+      }
+    }
+  });
+}
 
 document.getElementById("viewhistory").addEventListener("click", () => {
   chrome.runtime.sendMessage({ type: 'viewHis' });
