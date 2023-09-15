@@ -35,6 +35,7 @@ function loadTimeHistory() {
   // logged history from local storage
   const timeHistory = JSON.parse(localStorage.getItem("timeHistory")) || [];
 
+  timeHistory.reverse();
   //Table(rows) for each logging
   timeHistory.forEach((log) => {
     const [loggedTime, timeOfLogged, loggedDate, comment] = log.split(", ");
@@ -48,6 +49,6 @@ function loadTimeHistory() {
     cell2.textContent = timeOfLogged;
     cell3.textContent = loggedDate;
     cell4.textContent = comment;
-  })
+  });
 }
 window.addEventListener("load", loadTimeHistory);
