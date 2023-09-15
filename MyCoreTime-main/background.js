@@ -70,12 +70,24 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   } else if (message.type === 'viewHis') {
     window.location.href = "history.html";
   } else if (message.type === 'sendLoggedTime') {
-    const formattedTime = formatTime(elapsedTime)
-    chrome.runtime.sendMessage({ type: 'loggedTime', time: formattedTime });
-  } else if(message.type === 'resetTimerNow'){
+    wantToLogTime();
+  } else if (message.type === 'resetTimerNow') {
     resetTimer();
   }
 });
+
+function wantToLogTime() {
+  let wantToLog = "";
+
+  const formattedTime = formatTime(elapsedTime);
+
+  if (formattedTime === '00:00:00') {
+    wantToLog = "Can't log at 00:00:00";
+  } else {
+    wantToLog = "Do you want to log?";
+  }
+  chrome.runtime.sendMessage({ type: 'loggedTime', time: formattedTime, confirm: wantToLog });
+}
 
 // When a popup is opened, send the current time to it
 chrome.runtime.onConnect.addListener(function (port) {

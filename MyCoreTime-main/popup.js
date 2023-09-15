@@ -31,28 +31,21 @@ document.getElementById("pause").addEventListener("click", () => {
 document.getElementById("stop").addEventListener("click", () => {
 
   chrome.runtime.sendMessage({ type: 'stopTimer' });
-  confirmStop();
+  chrome.runtime.sendMessage({ type: 'sendLoggedTime' });
 });
 
-function confirmStop() {
-  chrome.runtime.sendMessage({ type: 'sendLoggedTime' });
-  chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    if (message.type === 'loggedTime' && message.time === '00:00:00') {
-      const cantLogTime = confirm("Cannot save 00:00:00");
-      return;
-    } else {
-      const logTime = confirm("Do you want to log this time in History?");
-      if (logTime) {
-        if (message.type === 'loggedTime') {
-          const format = message.time;
-          saveTimeLog(`${format}`);
-          resetTimer();
-          chrome.runtime.sendMessage({ type: 'resetTimerNow' });
-        }
-      }
+chrome.runtime.onMessage.addListener(function (message) {
+  if (message.type === 'loggedTime' && message.time != '00:00:00') {
+    const logTime = confirm(message.confirm);
+    if (logTime) {
+      saveTimeLog(`${message.time}`);
+      resetTimer();
+      chrome.runtime.sendMessage({ type: 'resetTimerNow' });
     }
-  });
-}
+  } else if (message.type === 'loggedTime') {
+    const logTime = confirm(message.confirm);
+  }
+});
 
 document.getElementById("viewhistory").addEventListener("click", () => {
   chrome.runtime.sendMessage({ type: 'viewHis' });
