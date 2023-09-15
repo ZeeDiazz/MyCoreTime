@@ -43,7 +43,7 @@ chrome.runtime.onMessage.addListener(function (message) {
       chrome.runtime.sendMessage({ type: 'resetTimerNow' });
     }
   } else if (message.type === 'loggedTime') {
-    const logTime = confirm(message.confirm);
+    alert(message.confirm);
   }
 });
 

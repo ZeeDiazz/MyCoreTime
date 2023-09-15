@@ -82,7 +82,7 @@ function wantToLogTime() {
   const formattedTime = formatTime(elapsedTime);
 
   if (formattedTime === '00:00:00') {
-    wantToLog = "Can't log at 00:00:00";
+    wantToLog = "Can't log 00:00:00";
   } else {
     wantToLog = "Do you want to log?";
   }
