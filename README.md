@@ -1,4 +1,4 @@
-# MyCoreTime
+# MyTimeLogger
 MyTimeLogger is a versatile time tracking Chrome extension that helps you effortlessly record and manage your work or project hours. Log your time with comments, view your time history, and boost productivity.
 
 More features are being developed!!!
