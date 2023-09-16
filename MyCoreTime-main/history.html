@@ -29,13 +29,17 @@
       position: relative;
       vertical-align: middle;
     }
+    /*hover action here*/
+    .editButton {
+      display: none;
+    }
+
+    tr:hover .editButton {
+      display: block;
+    }
   </style>
 
   <h1 style="color: #F8F8F8;">My Logged History</h1>
-
-  <!--<div id="historycontainer" style="color: #F8F8F8;">
-    Display logged times here
-  </div>-->
 
   <table id="historytable" style="color: #F8F8F8;">
     <thead>
@@ -43,7 +47,8 @@
         <th>Logged Time</th>
         <th>Time Of Logging</th>
         <th>Date</th>
-        <th>Comment</th>
+        <th>Describtion</th>
+        <th>Edit</th>
       </tr>
     </thead>
     <tbody>
