@@ -68,7 +68,7 @@ function saveTimeLog(log) {
   const now = new Date();
   const test = document.getElementById("comment").value;
 
-  const testNoComma = test.replace(',','--');
+  const testNoComma = test.replace(',', '--');
 
   const formattedDateTime = `${now.toLocaleTimeString()}, ${now.toLocaleDateString()}, ${testNoComma}`;
   const logWithDateTime = `${log}, ${formattedDateTime}`; //Format Timelog, TimeOfLog, Date
