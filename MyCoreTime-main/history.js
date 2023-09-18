@@ -39,7 +39,7 @@ function loadTimeHistory() {
   //Table(rows) for each logging
   timeHistory.forEach((log, index) => {
     const [loggedTime, timeOfLogged, loggedDate, commentNoComma] = log.split(", ");
-    const comment = commentNoComma.replace('--',',');
+    const comment = commentNoComma.replace('--', ',');
     const row = historyContainer.insertRow();
     const cell1 = row.insertCell(0);
     const cell2 = row.insertCell(1);
@@ -112,7 +112,7 @@ function editLog(index) {
     //remove the given log from the array
     timeHistory.splice(logIndex, 1);
 
-     // in reverse so the newest added log is showed at the top
+    // in reverse so the newest added log is showed at the top
     localStorage.setItem("timeHistory", JSON.stringify(timeHistory));
     // make it invensible
     editForm.style.display = "none";
