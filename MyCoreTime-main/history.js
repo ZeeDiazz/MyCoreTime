@@ -37,8 +37,9 @@ function loadTimeHistory() {
 
   timeHistory.reverse();
   //Table(rows) for each logging
-  timeHistory.forEach((log) => {
-    const [loggedTime, timeOfLogged, loggedDate, comment] = log.split(", ");
+  timeHistory.forEach((log, index) => {
+    const [loggedTime, timeOfLogged, loggedDate, commentNoComma] = log.split(", ");
+    const comment = commentNoComma.replace('--',',');
     const row = historyContainer.insertRow();
     const cell1 = row.insertCell(0);
     const cell2 = row.insertCell(1);
@@ -53,17 +54,72 @@ function loadTimeHistory() {
 
     //edit log coloum 
     const editButton = document.createElement("img");
-    editButton.src = "/images/EditIcon25.png";
+    editButton.src = "/images/editIcon25.png";
     editButton.classList.add("editButton"); //to make the hover action
-    editButton.addEventListener("click", () => editLog());
+    editButton.addEventListener("click", () => editLog(index));
     cell5.appendChild(editButton);
 
   });
 }
 
-function editLog() {
-  //code the edit here mate :)
-  alert("You edited it YAAAAA!");
+function editLog(index) {
+  const logIndex = index;
+  const timeHistory = JSON.parse(localStorage.getItem("timeHistory")) || [];
+  timeHistory.reverse(); //The original 
+
+  // Get the current comment associated with the log entry
+  const [, , , currentComment] = timeHistory[logIndex].split(", ");
+
+
+  const editedCommentField = document.getElementById("editedDesc");
+  editedCommentField.value = currentComment;
+
+  // Display the edit form
+  const editForm = document.getElementById("editBox");
+  editForm.style.display = "block";
+
+  // Save button
+  const saveEditButton = document.getElementById("saveEdit");
+  saveEditButton.addEventListener("click", () => {
+
+    //assign the new comment to the old
+    const editedComment = editedCommentField.value;
+    const [loggedTime, timeOfLogged, loggedDate] = timeHistory[logIndex].split(", ");
+    const updatedLogEntry = `${loggedTime}, ${timeOfLogged}, ${loggedDate}, ${editedComment}`; //replace the old with new
+    timeHistory[logIndex] = updatedLogEntry; //set the new log where the old was
+    timeHistory.reverse(); // in reverse so the newest added log is showed at the top
+    localStorage.setItem("timeHistory", JSON.stringify(timeHistory));
+
+    // make it invensible
+    editForm.style.display = "none";
+
+    loadTimeHistory();
+  });
+
+  // Cancel button
+  const cancelEditButton = document.getElementById("cancelEdit");
+  cancelEditButton.addEventListener("click", () => {
+    // make it invensible
+    editForm.style.display = "none";
+  });
+
+  // delete button
+  const deleteEditButton = document.getElementById("deleteEdit");
+  deleteEditButton.addEventListener("click", () => {
+    //back to normal
+    timeHistory.reverse();
+
+    //remove the given log from the array
+    timeHistory.splice(logIndex, 1);
+
+     // in reverse so the newest added log is showed at the top
+    localStorage.setItem("timeHistory", JSON.stringify(timeHistory));
+    // make it invensible
+    editForm.style.display = "none";
+
+    loadTimeHistory();
+  });
+
 }
 
 window.addEventListener("load", loadTimeHistory);
