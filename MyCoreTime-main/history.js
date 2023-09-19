@@ -106,12 +106,11 @@ function editLog(index) {
   // delete button
   const deleteEditButton = document.getElementById("deleteEdit");
   deleteEditButton.addEventListener("click", () => {
-    //back to normal
-    timeHistory.reverse();
 
     //remove the given log from the array
     timeHistory.splice(logIndex, 1);
-
+    //back to normal
+    timeHistory.reverse();
     // in reverse so the newest added log is showed at the top
     localStorage.setItem("timeHistory", JSON.stringify(timeHistory));
     // make it invensible
