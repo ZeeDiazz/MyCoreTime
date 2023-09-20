@@ -1,26 +1,30 @@
 {
-  "manifest_version": 3,
-  "name": "MyTimeLogger",
-  "description": "MyTimeLogger is a versatile time tracking Chrome extension that helps you effortlessly record and manage your work or project hours. Log your time with comments, view your time history, and boost productivity.",
-  "version": "0.1.0",
-  "icons": {
-    "16": "/images/Tiger16.png",
-    "48": "/images/Tiger48.png",
-    "128": "/images/Tiger128.png"
-  },
-  "page_action": {
-    "default_icon": {
-      "16": "/images/TigerWatch16.png",
-      "48": "/images/TigerWatch48.png",
-      "128": "/images/TigerWatch128.png"
+    "manifest_version": 3,
+    "name": "MyTimeLogger",
+    "description": "MyTimeLogger is a versatile time tracking Chrome extension that helps you effortlessly record and manage your work or project hours. Log your time with comments, view your time history, and boost productivity.",
+    "version": "0.1.0",
+    "icons": {
+        "16": "/images/Tiger16.png",
+        "48": "/images/Tiger48.png",
+        "128": "/images/Tiger128.png"
+    },
+    "permissions": [
+        "alarms",
+        "storage"
+    ],
+    "page_action": {
+        "default_icon": {
+            "16": "/images/TigerWatch16.png",
+            "48": "/images/TigerWatch48.png",
+            "128": "/images/TigerWatch128.png"
+        }
+    },
+    "author": "Zaid Cossai",
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "index.html",
+        "default_title": "MyTimeLogger"
     }
-  },
-  "author": "Zaid Cossai",
-  "background": {
-    "service_worker": "background.js"
-  },
-  "action": {
-    "default_popup": "index.html",
-    "default_title": "MyTimeLogger"
-  }
 }
