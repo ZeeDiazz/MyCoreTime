@@ -2,77 +2,77 @@
 <html>
 
 <head>
-  <title>History</title>
+    <title>History</title>
 </head>
 
 <body style="background-color: #1C1C1C;">
-  <style type="text/css">
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-    td,
-    th {
-      text-align: left;
-      padding: 8px;
-      border-bottom: 1px solid #656565;
-    }
+        td,
+        th {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #656565;
+        }
 
-    tr:nth-child(even) {
-      background-color: #222224;
-    }
+        tr:nth-child(even) {
+            background-color: #222224;
+        }
 
-    body {
-      min-width: 450px;
-      max-width: 100%;
-      position: relative;
-      vertical-align: middle;
-    }
+        body {
+            min-width: 450px;
+            max-width: 100%;
+            position: relative;
+            vertical-align: middle;
+        }
 
-    /*hover action here*/
-    .editButton {
-      display: none;
-    }
+        /*hover action here*/
+        .editButton {
+            display: none;
+        }
 
-    tr:hover .editButton {
-      display: block;
-    }
+        tr:hover .editButton {
+            display: block;
+        }
 
-    tr:hover {
-      background-color: rgb(15, 15, 16);
-    }
-  </style>
+        tr:hover {
+            background-color: rgb(15, 15, 16);
+        }
+    </style>
 
-  <h1 style="color: #F8F8F8;">My Logged History</h1>
+    <h1 style="color: #F8F8F8;">My Logged History</h1>
 
-  <table id="historytable" style="color: #F8F8F8;">
-    <thead>
-      <tr>
-        <th>Logged Time</th>
-        <th>Time Of Logging</th>
-        <th>Date</th>
-        <th>Describtion</th>
-        <th>Edit</th>
-      </tr>
-    </thead>
-    <tbody>
+    <table id="historytable" style="color: #F8F8F8;">
+        <thead>
+            <tr>
+                <th>Logged Time</th>
+                <th>Time Of Logging</th>
+                <th>Date</th>
+                <th>Describtion</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
 
-    </tbody>
-  </table>
+        </tbody>
+    </table>
 
-  <div id="editBox" style="display: none; color: #F8F8F8;">
-    <h2>Edit Describtion</h2>
-    <textarea id="editedDesc" placeholder="Edit your describtion..."></textarea>
-    <button id="saveEdit">Save</button>
-    <button id="cancelEdit">Cancel</button>
-    <button id="deleteEdit"><img src="/images/deleteIcon12.png" /></button>
-  </div>
+    <div id="editBox" style="display: none; color: #F8F8F8;">
+        <h2>Edit Describtion</h2>
+        <textarea id="editedDesc" placeholder="Edit your describtion..."></textarea>
+        <button id="saveEdit">Save</button>
+        <button id="cancelEdit">Cancel</button>
+        <button id="deleteEdit"><img src="/images/deleteIcon12.png" /></button>
+    </div>
 
-  <button id="clearhistory">Clear History</button>
-  <button id="backtomain">Back to Main</button>
+    <button id="clearhistory">Clear History</button>
+    <button id="backtomain">Back to Main</button>
 
-  <script src="history.js"></script>
+    <script src="history.js"></script>
 </body>
 
 </html>
