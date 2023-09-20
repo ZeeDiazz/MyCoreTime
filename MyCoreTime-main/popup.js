@@ -1,6 +1,9 @@
 // Request the current time from background.js when popup is opened
 const port = chrome.runtime.connect({ name: 'popup' });
 port.postMessage({ type: 'requestTime' });
+let isStarted = false;
+let alarmId;
+let time;
 
 // Initialize background page
 function formatTime(milliseconds) {
@@ -13,22 +16,26 @@ function formatTime(milliseconds) {
 // Add an event listener to receive updated time from background.js
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.type === 'updateTime') {
-        document.getElementById("timer").innerText = message.time;
+        time = message.time;
+        document.getElementById("timer").innerText = time;
     }
 });
 
 // Start button
 document.getElementById("start").addEventListener("click", () => {
+    isStarted = true;
     chrome.runtime.sendMessage({ type: 'startTimer' });
 });
 
 // Pause button
 document.getElementById("pause").addEventListener("click", () => {
+    isStarted = false;
     chrome.runtime.sendMessage({ type: 'pauseTimer' });
 });
 
 // Stop button
 document.getElementById("stop").addEventListener("click", () => {
+    isStarted = false;
     chrome.runtime.sendMessage({ type: 'stopTimer' });
     chrome.runtime.sendMessage({ type: 'sendLoggedTime' });
 });
@@ -47,27 +54,36 @@ chrome.storage.local.get(["comment"], function (result) {
     }
 });
 
-/*document.getElementById("alarm").addEventListener("click", () => {
+//let test;
+document.getElementById("alarm").addEventListener("click", () => {
     const alarmBox = document.getElementById("alarmBox");
     alarmBox.style.display = "block";
 
-    const setAlarm = document.getElementById("setAlarm");
-    setAlarm.addEventListener("click", () => {
-        //ALARM HER
-        let sec = document.getElementById("alarmTime").value;
-        formatTime(sec);
+    document.getElementById("setAlarm").addEventListener("click", () => {
+        if (isStarted == true) {
+            const alarmTime = document.getElementById("alarmTime").value; //millisec
+            //test = formatTime(alarmTime);
+            chrome.alarms.create({ delayInMinutes: alarmTime / 60000 });
 
-
-        // make it invensible
+            alert(`Alarm set for ${alarmTime / 60000} minutes.`);
+        } else {
+            alert("The log timer hasn't started yet");
+        }
         alarmBox.style.display = "none";
     });
 
-    const cancelAlarm = document.getElementById("cancelAlarm");
-    cancelAlarm.addEventListener("click", () => {
-        // make it invensible
+    document.getElementById("cancelAlarm").addEventListener("click", () => {
+        if (alarmId) {
+            chrome.alarms.clear(alarmId);
+            alert("Alarm canceled.");
+        }
         alarmBox.style.display = "none";
     });
-});*/
+});
+// Listen for the alarm event
+chrome.alarms.onAlarm.addListener(() => {
+    alert('Alarm!!!');
+});
 chrome.runtime.onMessage.addListener(function (message) {
     if (message.type === 'loggedTime' && message.time != '00:00:00') {
         const logTime = confirm(message.confirm);

@@ -7,8 +7,6 @@ let isPaused = false;
 let pauseStartTime = 0;
 let totalPauseTime = 0;
 
-//let alarmInterval;
-
 function formatTime(milliseconds) {
     const seconds = Math.floor((milliseconds / 1000) % 60);
     const minutes = Math.floor((milliseconds / 1000 / 60) % 60);
@@ -39,6 +37,7 @@ function updateTimer() {
     }
 }
 
+
 function startTimer() {
     if (!timerInterval) {
         if (isPaused) {
@@ -48,6 +47,7 @@ function startTimer() {
             startTime = Date.now() - elapsedTime - totalPauseTime;
         }
         timerInterval = setInterval(updateTimer, 1000); // Update every second.
+        chrome.alarms.create('myTimerAlarm', { delayInMinutes: alarmTime / 60000 });
     }
     isPaused = false;
 }
