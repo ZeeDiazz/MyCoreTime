@@ -2,8 +2,10 @@
 const port = chrome.runtime.connect({ name: 'popup' });
 port.postMessage({ type: 'requestTime' });
 let isStarted = false;
-let alarmId;
 let time;
+/*
+let startedTime;
+let afterAlarmTime;*/
 
 // Initialize background page
 function formatTime(milliseconds) {
@@ -36,6 +38,7 @@ document.getElementById("pause").addEventListener("click", () => {
 // Stop button
 document.getElementById("stop").addEventListener("click", () => {
     isStarted = false;
+    //chrome.alarms.clearAll();
     chrome.runtime.sendMessage({ type: 'stopTimer' });
     chrome.runtime.sendMessage({ type: 'sendLoggedTime' });
 });
@@ -54,17 +57,21 @@ chrome.storage.local.get(["comment"], function (result) {
     }
 });
 
-//let test;
+/*
 document.getElementById("alarm").addEventListener("click", () => {
     const alarmBox = document.getElementById("alarmBox");
     alarmBox.style.display = "block";
 
     document.getElementById("setAlarm").addEventListener("click", () => {
         if (isStarted == true) {
-            const alarmTime = document.getElementById("alarmTime").value; //millisec
-            //test = formatTime(alarmTime);
-            chrome.alarms.create({ delayInMinutes: alarmTime / 60000 });
+            const alarmTime = parseInt(document.getElementById("alarmTime").value); //millisec
+            startedTime = document.getElementById("timer").innerText;
+            const startedTimeSec = parseTimeToMilliSeconds(startedTime);
 
+            afterAlarmTime = formatTime(alarmTime + startedTimeSec);
+
+            chrome.alarms.create({ delayInMinutes: alarmTime / 60000 });
+            
             alert(`Alarm set for ${alarmTime / 60000} minutes.`);
         } else {
             alert("The log timer hasn't started yet");
@@ -73,17 +80,25 @@ document.getElementById("alarm").addEventListener("click", () => {
     });
 
     document.getElementById("cancelAlarm").addEventListener("click", () => {
-        if (alarmId) {
-            chrome.alarms.clear(alarmId);
-            alert("Alarm canceled.");
-        }
+        chrome.alarms.clear();
+        alert("Alarm canceled.");
         alarmBox.style.display = "none";
     });
 });
+
 // Listen for the alarm event
-chrome.alarms.onAlarm.addListener(() => {
-    alert('Alarm!!!');
-});
+if (startedTime === afterAlarmTime) {
+    chrome.alarms.onAlarm.addListener(() => {
+        alert('Alarm!!!');
+    });
+}
+
+function parseTimeToMilliSeconds(time) {
+    const [hours, minutes, seconds] = time.split(':');
+    return (parseInt(hours) * 60 * 60 + parseInt(minutes) * 60 + parseInt(seconds)) * 1000;
+}
+*/
+
 chrome.runtime.onMessage.addListener(function (message) {
     if (message.type === 'loggedTime' && message.time != '00:00:00') {
         const logTime = confirm(message.confirm);
