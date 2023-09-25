@@ -181,7 +181,7 @@ function downloadLog(log) {
         if (fileType == 'None') {
             alert('Nope');
         } else {
-            let filename = "LoggedTimeDDDD" + fileType;
+            let filename = "LoggedTime" + fileType;
             const blob = new Blob([log], { type: "text/plain" });
 
             a.href = URL.createObjectURL(blob);
