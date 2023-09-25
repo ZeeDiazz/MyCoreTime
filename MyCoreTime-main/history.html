@@ -31,18 +31,19 @@
         }
 
         /*hover action here*/
-        .editButton{
+        .editButton {
             display: none;
         }
 
-        tr:hover .editButton  {
+        tr:hover .editButton {
             display: block;
         }
-        .downloadButton{
+
+        .downloadButton {
             display: none;
         }
 
-        tr:hover .downloadButton  {
+        tr:hover .downloadButton {
             display: block;
         }
 
@@ -56,12 +57,12 @@
     <table id="historytable" style="color: #F8F8F8;">
         <thead>
             <tr>
+                <th>Select</th>
                 <th>Logged Time</th>
                 <th>Time Of Logging</th>
                 <th>Date</th>
                 <th>Describtion</th>
                 <th>Edit</th>
-                <th>Download</th>
             </tr>
         </thead>
         <tbody>
@@ -80,12 +81,15 @@
     <div id="selectBox" style="display: none; color: #F8F8F8;">
         <h2>Select a file</h2>
         <select id="fileType">
-            <option value="txt">txt</option>
-            <option value="csv">csv</option>
+            <option value="None">Choose One</option>
+            <option value=".txt">txt</option>
+            <option value=".csv">csv</option>
         </select>
         <button id="downloadConfirm">Download</button>
         <button id="downloadCancel">Cancel</button>
     </div>
+
+    <button id="downloadAll">Download Selected</button>
     <button id="clearhistory">Clear History</button>
     <button id="backtomain">Back to Main</button>
 
