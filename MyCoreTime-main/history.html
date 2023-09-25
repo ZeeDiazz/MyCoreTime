@@ -31,11 +31,18 @@
         }
 
         /*hover action here*/
-        .editButton {
+        .editButton{
             display: none;
         }
 
-        tr:hover .editButton {
+        tr:hover .editButton  {
+            display: block;
+        }
+        .downloadButton{
+            display: none;
+        }
+
+        tr:hover .downloadButton  {
             display: block;
         }
 
@@ -54,6 +61,7 @@
                 <th>Date</th>
                 <th>Describtion</th>
                 <th>Edit</th>
+                <th>Download</th>
             </tr>
         </thead>
         <tbody>
@@ -69,6 +77,15 @@
         <button id="deleteEdit"><img src="/images/deleteIcon12.png" /></button>
     </div>
 
+    <div id="selectBox" style="display: none; color: #F8F8F8;">
+        <h2>Select a file</h2>
+        <select id="fileType">
+            <option value="txt">txt</option>
+            <option value="csv">csv</option>
+        </select>
+        <button id="downloadConfirm">Download</button>
+        <button id="downloadCancel">Cancel</button>
+    </div>
     <button id="clearhistory">Clear History</button>
     <button id="backtomain">Back to Main</button>
 

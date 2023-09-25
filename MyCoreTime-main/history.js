@@ -46,6 +46,7 @@ function loadTimeHistory() {
         const cell3 = row.insertCell(2);
         const cell4 = row.insertCell(3);
         const cell5 = row.insertCell(4);
+        const cell6 = row.insertCell(5);
 
         cell1.textContent = loggedTime;
         cell2.textContent = timeOfLogged;
@@ -58,6 +59,12 @@ function loadTimeHistory() {
         editButton.classList.add("editButton"); //to make the hover action
         editButton.addEventListener("click", () => editLog(index));
         cell5.appendChild(editButton);
+
+        const downloadButton = document.createElement("img");
+        downloadButton.src = "/images/downloadIcon25.png";
+        downloadButton.classList.add("downloadButton");
+        downloadButton.addEventListener("click", () => downloadLog(log)); // Call the download function
+        cell6.appendChild(downloadButton);
 
     });
 }
@@ -119,6 +126,33 @@ function editLog(index) {
         loadTimeHistory();
     });
 
+}
+// Function to trigger the download action
+function downloadLog(log) {
+    const selectForm = document.getElementById("selectBox");
+    selectForm.style.display = "block";
+
+    let fileType = document.getElementById("fileType").value;
+
+    const downloadButton = document.getElementById("downloadConfirm");
+    downloadButton.addEventListener("click", () => {
+
+        const filename = "LoggedTime." + fileType;
+        const blob = new Blob([log], { type: "text/plain" });
+
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+
+        a.click();
+        selectForm.style.display = "none";
+    });
+     // Cancel button
+    const cancelDownloadButton = document.getElementById("cancelDownload");
+    cancelDownloadButton.addEventListener("click", () => {
+        // make it invensible
+        selectForm.style.display = "none";
+    });
 }
 
 window.addEventListener("load", loadTimeHistory);
