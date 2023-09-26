@@ -114,6 +114,11 @@ chrome.runtime.onMessage.addListener(function (message) {
             saveTimeLog(`${message.time}`);
             resetTimer();
             chrome.runtime.sendMessage({ type: 'resetTimerNow' });
+        } else {
+            resetTimer();
+            chrome.runtime.sendMessage({ type: 'resetTimerNow' });
+            comment.value = '';
+            chrome.storage.local.set({ comment: '' });
         }
     } else if (message.type === 'loggedTime') {
         alert(message.confirm);
