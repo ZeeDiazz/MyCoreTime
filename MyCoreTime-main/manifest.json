@@ -10,7 +10,8 @@
     },
     "permissions": [
         "alarms",
-        "storage"
+        "storage",
+        "notifications"
     ],
     "page_action": {
         "default_icon": {

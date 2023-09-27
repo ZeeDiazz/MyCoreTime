@@ -80,6 +80,12 @@ document.getElementById("alarm").addEventListener("click", () => {
 
 document.getElementById("setAlarm").addEventListener("click", () => {
     if (isStarted == true) {
+        
+    }
+});
+
+document.getElementById("setAlarm").addEventListener("click", () => {
+    if (isStarted == true) {
         AlarmTimer.style.display = "block";
         testValue = formatTime(document.getElementById("alarmTime").value);
         const alarmsTime = parseInt(document.getElementById("alarmTime").value); //millisec

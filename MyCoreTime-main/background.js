@@ -123,6 +123,15 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     }
     /*if (message.type === 'startAlarmTimer') {
         startAlarmTimer();
+                chrome.notifications.create('Hello',
+        {
+            type: "basic",
+            iconUrl: "/images/alarmIcon25.png",
+            title: 'ALARM',
+            message: ''
+          });
+
+        chrome.notifications.clear("Hello");
     }*/
 });
 
