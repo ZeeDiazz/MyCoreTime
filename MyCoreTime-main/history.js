@@ -1,4 +1,3 @@
-const a = document.createElement("a");
 let selectedLogs = [];
 
 function loadTimeHistory() {
@@ -85,7 +84,10 @@ function updateSelectedLogs() {
 
 document.getElementById("downloadAll").addEventListener("click", () => {
     const selectedLogData = selectedLogs.map((index) => {
-        return JSON.parse(localStorage.getItem("timeHistory"))[index];
+        const timeHistory = JSON.parse(localStorage.getItem("timeHistory")) || [];
+
+        timeHistory.reverse();
+        return timeHistory[index];
     });
     if (selectedLogData.length > 0) {
         const combinedLog = selectedLogData.join("\n");
@@ -171,6 +173,7 @@ function downloadLog(log) {
         if (fileType == 'None') {
             alert('Nope');
         } else {
+            const a = document.createElement("a");
             let filename = "LoggedTime" + fileType;
             const blob = new Blob([log], { type: "text/plain" });
 
