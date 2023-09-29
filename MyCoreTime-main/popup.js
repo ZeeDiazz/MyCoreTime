@@ -1,13 +1,8 @@
 // Request the current time from background.js when popup is opened
 const port = chrome.runtime.connect({ name: 'popup' });
 port.postMessage({ type: 'requestTime' });
-//let isStarted = false;
 let time;
-/*
-let alarmTime = '00:00:00';
-let alarmTriggered = false;
-let testValue;
-const AlarmTimer = document.getElementById("AlarmTimer");*/
+
 
 // Initialize background page
 function formatTime(milliseconds) {
@@ -23,37 +18,20 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         time = message.time;
         document.getElementById("timer").innerText = time;
     }
-    /*if (message.type === 'updateAlarmTime') {
-        if (!alarmTriggered) {
-            AlarmTimer.style.display = "block";
-            alarmTime = message.Alarmtime;
-            document.getElementById("AlarmTimer").innerText = alarmTime;
-        }
-    }
-    if ( document.getElementById("AlarmTimer").innerText== testValue && !alarmTriggered) {
-        alarmTriggered = true;
-        alert('TIMER GOES BOOM!!');
-        AlarmTimer.style.display = "none";
-        alarmTime = '00:00:00';
-        document.getElementById("AlarmTimer").innerText = alarmTime;
-    }*/
 });
 
 // Start button
 document.getElementById("start").addEventListener("click", () => {
-    //isStarted = true;
     chrome.runtime.sendMessage({ type: 'startTimer' });
 });
 
 // Pause button
 document.getElementById("pause").addEventListener("click", () => {
-    //isStarted = false;
     chrome.runtime.sendMessage({ type: 'pauseTimer' });
 });
 
 // Stop button
 document.getElementById("stop").addEventListener("click", () => {
-    //isStarted = false;
     chrome.runtime.sendMessage({ type: 'stopTimer' });
     chrome.runtime.sendMessage({ type: 'sendLoggedTime' });
 });
@@ -71,47 +49,6 @@ chrome.storage.local.get(["comment"], function (result) {
         comment.value = result.comment;
     }
 });
-
-/*
-document.getElementById("alarm").addEventListener("click", () => {
-    const alarmBox = document.getElementById("alarmBox");
-    alarmBox.style.display = "block";
-});
-
-document.getElementById("setAlarm").addEventListener("click", () => {
-    if (isStarted == true) {
-        
-    }
-});
-
-document.getElementById("setAlarm").addEventListener("click", () => {
-    if (isStarted == true) {
-        AlarmTimer.style.display = "block";
-        testValue = formatTime(document.getElementById("alarmTime").value);
-        const alarmsTime = parseInt(document.getElementById("alarmTime").value); //millisec
-        alarmTriggered = false;
-
-        alert(`Alarm set for ${alarmsTime / 60000} minutes.`+ formatTime(alarmsTime));
-
-        chrome.runtime.sendMessage({ type: 'startAlarmTimer' });
-
-    } else {
-        alert("The log timer hasn't started yet");
-    }
-    alarmBox.style.display = "none";
-});
-
-document.getElementById("cancelAlarm").addEventListener("click", () => {
-    AlarmTimer.style.display = "none";
-    alert("Alarm canceled.");
-    alarmBox.style.display = "none";
-});
-
-function parseTimeToMilliSeconds(time) {
-    const [hours, minutes, seconds] = time.split(':');
-    return (parseInt(hours) * 60 * 60 + parseInt(minutes) * 60 + parseInt(seconds)) * 1000;
-}
-*/
 
 chrome.runtime.onMessage.addListener(function (message) {
     if (message.type === 'loggedTime' && message.time != '00:00:00') {

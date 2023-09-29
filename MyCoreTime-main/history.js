@@ -50,7 +50,6 @@ function loadTimeHistory() {
         const cell4 = row.insertCell(3);
         const cell5 = row.insertCell(4);
         const cell6 = row.insertCell(5);
-        //const cell7 = row.insertCell(6);
 
         // Add a checkbox to the first cell
         const checkbox = document.createElement("input");
@@ -70,12 +69,6 @@ function loadTimeHistory() {
         editButton.classList.add("editButton"); //to make the hover action
         editButton.addEventListener("click", () => editLog(index));
         cell6.appendChild(editButton);
-
-        /*const downloadButton = document.createElement("img");
-        downloadButton.src = "/images/downloadIcon25.png";
-        downloadButton.classList.add("downloadButton");
-        downloadButton.addEventListener("click", () => downloadLog(log)); // Call the download function
-        cell7.appendChild(downloadButton);*/
 
     });
 }
@@ -121,8 +114,7 @@ function editLog(index) {
     editForm.style.display = "block";
 
     // Save button
-    const saveEditButton = document.getElementById("saveEdit");
-    saveEditButton.addEventListener("click", () => {
+    document.getElementById("saveEdit").addEventListener("click", () => {
 
         //assign the new comment to the old
         const editedComment = editedCommentField.value;
@@ -139,15 +131,13 @@ function editLog(index) {
     });
 
     // Cancel button
-    const cancelEditButton = document.getElementById("cancelEdit");
-    cancelEditButton.addEventListener("click", () => {
+    document.getElementById("cancelEdit").addEventListener("click", () => {
         // make it invensible
         editForm.style.display = "none";
     });
 
     // delete button
-    const deleteEditButton = document.getElementById("deleteEdit");
-    deleteEditButton.addEventListener("click", () => {
+    document.getElementById("deleteEdit").addEventListener("click", () => {
 
         //remove the given log from the array
         timeHistory.splice(logIndex, 1);
@@ -197,8 +187,7 @@ function downloadLog(log) {
         }
     });
     // Cancel button
-    const cancelDownloadButton = document.getElementById("downloadCancel");
-    cancelDownloadButton.addEventListener("click", () => {
+    document.getElementById("downloadCancel").addEventListener("click", () => {
         // make it invensible
         selectForm.style.display = "none";
     });
