@@ -72,32 +72,6 @@ function loadTimeHistory() {
     });
 }
 
-function updateSelectedLogs() {
-    selectedLogs = [];
-    const checkboxes = document.querySelectorAll("#historytable tbody input[type='checkbox']");
-    checkboxes.forEach((checkbox, index) => {
-        if (checkbox.checked) {
-            selectedLogs.push(index);
-        }
-    });
-}
-
-document.getElementById("downloadAll").addEventListener("click", () => {
-    const selectedLogData = selectedLogs.map((index) => {
-        const timeHistory = JSON.parse(localStorage.getItem("timeHistory")) || [];
-
-        timeHistory.reverse();
-        return timeHistory[index];
-    });
-    if (selectedLogData.length > 0) {
-        const combinedLog = selectedLogData.join("\n");
-        downloadLog(combinedLog);
-    } else {
-        alert("No logs selected for download.");
-    }
-    a.clearTimeHistory();
-});
-
 
 function editLog(index) {
     const logIndex = index;
@@ -154,6 +128,32 @@ function editLog(index) {
     });
 
 }
+
+function updateSelectedLogs() {
+    selectedLogs = [];
+    const checkboxes = document.querySelectorAll("#historytable tbody input[type='checkbox']");
+    checkboxes.forEach((checkbox, index) => {
+        if (checkbox.checked) {
+            selectedLogs.push(index);
+        }
+    });
+}
+
+document.getElementById("downloadAll").addEventListener("click", () => {
+    const selectedLogData = selectedLogs.map((index) => {
+        const timeHistory = JSON.parse(localStorage.getItem("timeHistory")) || [];
+
+        timeHistory.reverse();
+        return timeHistory[index];
+    });
+    if (selectedLogData.length > 0) {
+        const combinedLog = selectedLogData.join("\n");
+        downloadLog(combinedLog);
+    } else {
+        alert("No logs selected for download.");
+    }
+    a.clearTimeHistory();
+});
 
 document.getElementById("fileType").addEventListener("change", () => {
     fileType = document.getElementById("fileType").value;

@@ -3,15 +3,6 @@ const port = chrome.runtime.connect({ name: 'popup' });
 port.postMessage({ type: 'requestTime' });
 let time;
 
-
-// Initialize background page
-function formatTime(milliseconds) {
-    const seconds = Math.floor((milliseconds / 1000) % 60);
-    const minutes = Math.floor((milliseconds / 1000 / 60) % 60);
-    const hours = Math.floor(milliseconds / 1000 / 60 / 60);
-    return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`; //format for 00:00:00
-}
-
 // Add an event listener to receive updated time from background.js
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.type === 'updateTime') {
@@ -19,6 +10,12 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         document.getElementById("timer").innerText = time;
     }
 });
+
+function resetTimer() {
+    elapsedTime = 0;
+    totalPauseTime = 0;
+    document.getElementById("timer").innerText = "00:00:00"; // Resets the timer to 00:00:00
+}
 
 // Start button
 document.getElementById("start").addEventListener("click", () => {
@@ -36,6 +33,10 @@ document.getElementById("stop").addEventListener("click", () => {
     chrome.runtime.sendMessage({ type: 'sendLoggedTime' });
 });
 
+document.getElementById("viewhistory").addEventListener("click", () => {
+    window.location.href = "history.html";
+});
+
 const comment = document.getElementById("comment");
 //Save the comment whenever there is a input
 comment.addEventListener("input", () => {
@@ -51,33 +52,25 @@ chrome.storage.local.get(["comment"], function (result) {
 });
 
 chrome.runtime.onMessage.addListener(function (message) {
-    if (message.type === 'loggedTime' && message.time != '00:00:00') {
-        const logTime = confirm(message.confirm);
-        if (logTime) {
-            saveTimeLog(`${message.time}`);
-            resetTimer();
-            chrome.runtime.sendMessage({ type: 'resetTimerNow' });
-        } else {
-            resetTimer();
-            chrome.runtime.sendMessage({ type: 'resetTimerNow' });
-            comment.value = '';
-            chrome.storage.local.set({ comment: '' });
-        }
-    } else if (message.type === 'loggedTime') {
-        alert(message.confirm);
+    if (message.type != 'loggedTime') {
+        return;
     }
+    if (message.time === '00:00:00') {
+        alert(message.confirm);
+        return;
+    }
+    const logTime = confirm(message.confirm);
+    if (logTime) {
+        saveTimeLog(`${message.time}`);
+    } else {
+        comment.value = '';
+        chrome.storage.local.set({ comment: '' });
+    }
+    resetTimer();
+    chrome.runtime.sendMessage({ type: 'resetTimerNow' });
+
 });
 
-document.getElementById("viewhistory").addEventListener("click", () => {
-    chrome.runtime.sendMessage({ type: 'viewHis' });
-    window.location.href = "history.html";
-});
-
-function resetTimer() {
-    elapsedTime = 0;
-    totalPauseTime = 0;
-    document.getElementById("timer").innerText = "00:00:00"; // Resets the timer to 00:00:00
-}
 
 function saveTimeLog(log) {
     const blob = new Blob([log], { type: "text/plain" });

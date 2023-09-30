@@ -14,12 +14,6 @@ function formatTime(milliseconds) {
     return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`; //format for 00:00:00
 }
 
-chrome.runtime.onMessage.addListener(function (message) {
-    if (message.type === 'saveThisComment') {
-        const commentbg = message.comment;
-        chrome.storage.local.set({ comment: commentbg });
-    }
-});
 function resetTimer() {
     elapsedTime = 0;
     totalPauseTime = 0;
@@ -28,58 +22,76 @@ function resetTimer() {
 
 function updateTimer() {
     const currentTime = Date.now();
-    if (!isPaused) {
-        elapsedTime = currentTime - startTime;
-        const formattedTime = formatTime(elapsedTime);
-
-        // Send the updated time to all popup instances
-        chrome.runtime.sendMessage({ type: 'updateTime', time: formattedTime });
+    if (isPaused) {
+        return;
     }
+    elapsedTime = currentTime - startTime;
+    const formattedTime = formatTime(elapsedTime);
+
+    // Send the updated time to all popup instances
+    chrome.runtime.sendMessage({ type: 'updateTime', time: formattedTime });
 }
 
 function startTimer() {
-    if (!timerInterval) {
-        if (isPaused) {
-            totalPauseTime += Date.now() - pauseStartTime;
-            startTime += Date.now() - pauseStartTime;
-        } else {
-            startTime = Date.now() - elapsedTime - totalPauseTime;
-        }
-        timerInterval = setInterval(updateTimer, 1000); // Update every second.
+    if (timerInterval) {
+        return;
     }
+
+    if (isPaused) {
+        totalPauseTime += Date.now() - pauseStartTime;
+        startTime += Date.now() - pauseStartTime;
+    } else {
+        startTime = Date.now() - elapsedTime - totalPauseTime;
+    }
+
+    timerInterval = setInterval(updateTimer, 1000); // Update every second.
     isPaused = false;
 }
 
 function pauseTimer() {
-    if (!isPaused && timerInterval) {
-        isPaused = true;
-        pauseStartTime = Date.now(); // Store the time when paused.
-        clearInterval(timerInterval); // Stop the timer.
-        timerInterval = null;
+    if (isPaused) {
+        return;
     }
+    if (timerInterval == undefined) {
+        return;
+    }
+    isPaused = true;
+    pauseStartTime = Date.now(); // Store the time when paused.
+    clearInterval(timerInterval); // Stop the timer.
+    timerInterval = null;
+
 }
 
 function stopTimer() {
-    if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
+    if (timerInterval == undefined) {
+        return;
     }
+    clearInterval(timerInterval);
+    timerInterval = null;
 }
 
 // Listen for messages from popup.js
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    if (message.type === 'startTimer') {
-        startTimer();
-    } else if (message.type === 'pauseTimer') {
-        pauseTimer();
-    } else if (message.type === 'stopTimer') {
-        stopTimer();
-    } else if (message.type === 'viewHis') {
-        window.location.href = "history.html";
-    } else if (message.type === 'sendLoggedTime') {
-        wantToLogTime();
-    } else if (message.type === 'resetTimerNow') {
-        resetTimer();
+    switch (message.type) {
+        case 'startTimer':
+            startTimer();
+            break;
+        case 'pauseTimer':
+            pauseTimer();
+            break;
+        case 'stopTimer':
+            stopTimer();
+            break;
+        case 'sendLoggedTime':
+            wantToLogTime();
+            break;
+        case 'resetTimerNow':
+            resetTimer();
+            break;
+        case 'saveThisComment':
+            const commentbg = message.comment;
+            chrome.storage.local.set({ comment: commentbg });
+            break;
     }
 });
 
@@ -99,7 +111,10 @@ function wantToLogTime() {
 // When a popup is opened, send the current time to it
 chrome.runtime.onConnect.addListener(function (port) {
     port.onMessage.addListener(function (message) {
-        if (message.type === 'requestTime' && !isPaused) {
+        if (isPaused) {
+            return;
+        }
+        if (message.type === 'requestTime') {
             const formattedTime = formatTime(elapsedTime);
             port.postMessage({ type: 'updateTime', time: formattedTime });
         }
